@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0f19">
+    <title>Linear Congruential Generator Virtual Laboratory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a class="brand" href="#top" aria-label="LCG Virtual Laboratory home">
+                <span class="brand-icon" aria-hidden="true">λ</span>
+                <span class="brand-text">
+                    <span class="brand-title">Linear Congruential Generator</span>
+                    <span class="brand-subtitle">Virtual Laboratory</span>
+                </span>
+            </a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#aim">Overview</a>
+                <a href="#formula">Formula</a>
+                <a href="#experiment">Experiment</a>
+                <a href="#results">Results</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top" class="main-layout">
+        <section class="hero-card">
+            <div class="hero-content">
+                <span class="eyebrow"><span class="eyebrow-dot"></span> INTERACTIVE COMPUTER SCIENCE LAB</span>
+                <h1>Linear Congruential Generator <span>Virtual Laboratory</span></h1>
+                <p class="hero-description">Interactive simulation and visualization of the Linear Congruential Generator. Explore how a simple recurrence produces a repeatable sequence of pseudorandom values.</p>
+                <a class="hero-link" href="#experiment">Start the experiment <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="hero-equation" aria-label="X n plus one equals a times X n plus c modulo m">
+                <span class="equation-label">THE LCG RECURRENCE</span>
+                <span class="equation-preview">X<sub>n+1</sub> = (aX<sub>n</sub> + c) mod m</span>
+                <span class="equation-caption">Input · Calculate · Observe</span>
+            </div>
+        </section>
+
+        <section id="aim" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">01</span>
+                <div>
+                    <h2>Aim</h2>
+                    <p class="section-subtitle">Understand and explore the LCG through an interactive experiment.</p>
+                </div>
+            </div>
+            <div class="overview-grid">
+                <article class="overview-card">
+                    <span class="overview-label">PROBLEM IDENTIFIED</span>
+                    <p>Manual generation of LCG sequences requires repeated substitution, modular arithmetic, and checking for repeated values. This can be time-consuming and may lead to calculation errors.</p>
+                </article>
+                <article class="overview-card solution-card">
+                    <span class="overview-label">PROPOSED SOLUTION</span>
+                    <p>This virtual laboratory allows users to enter LCG parameters and automatically performs the calculations, displays the substitution steps, generates the sequence, determines the period, and visualizes the generated values.</p>
+                </article>
+            </div>
+            <div class="how-it-works">
+                <h3>How the Virtual Lab Works</h3>
+                <div class="workflow" aria-label="Input, formula, calculations, sequence, and visualization">
+                    <span>Input</span><b aria-hidden="true">→</b>
+                    <span>Formula</span><b aria-hidden="true">→</b>
+                    <span>Step-by-step calculation</span><b aria-hidden="true">→</b>
+                    <span>Sequence &amp; period</span><b aria-hidden="true">→</b>
+                    <span>Visualization</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="formula" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">02</span>
+                <div>
+                    <h2>Formula</h2>
+                    <p class="section-subtitle">Each new state is calculated from the previous one.</p>
+                </div>
+            </div>
+            <div class="formula-box">
+                <span class="formula-kicker">LINEAR CONGRUENTIAL GENERATOR</span>
+                <div class="formula-display">X<sub>n+1</sub> = (a × X<sub>n</sub> + c) mod m</div>
+                <p>Start with the seed X₀, then repeatedly apply the recurrence to get the next state.</p>
+            </div>
+            <div class="parameters-grid">
+                <div class="param-card"><span class="param-symbol">X₀</span><span><strong>Seed</strong><small>Initial state value</small></span></div>
+                <div class="param-card"><span class="param-symbol">a</span><span><strong>Multiplier</strong><small>Scales the current state</small></span></div>
+                <div class="param-card"><span class="param-symbol">c</span><span><strong>Increment</strong><small>Value added each step</small></span></div>
+                <div class="param-card"><span class="param-symbol">m</span><span><strong>Modulus</strong><small>Limits the state range</small></span></div>
+                <div class="param-card"><span class="param-symbol">N</span><span><strong>Iterations</strong><small>Number of calculations</small></span></div>
+                <div class="param-card"><span class="param-symbol">Uₙ</span><span><strong>Normalized value</strong><small>State Xₙ divided by m</small></span></div>
+            </div>
+        </section>
+
+        <section id="experiment" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">03</span>
+                <div>
+                    <h2>Interactive Experiment</h2>
+                    <p class="section-subtitle">Enter integer parameters, then generate and explore the sequence.</p>
+                </div>
+            </div>
+            <div class="experiment-card">
+                <form id="lcgForm" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="seedInput">Seed <span>(X₀)</span></label>
+                            <input id="seedInput" name="seed" type="number" min="0" step="1" value="2" inputmode="numeric" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aInput">Multiplier <span>(a)</span></label>
+                            <input id="aInput" name="multiplier" type="number" min="0" step="1" value="7" inputmode="numeric" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cInput">Increment <span>(c)</span></label>
+                            <input id="cInput" name="increment" type="number" min="0" step="1" value="1" inputmode="numeric" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mInput">Modulus <span>(m)</span></label>
+                            <input id="mInput" name="modulus" type="number" min="1" step="1" value="10" inputmode="numeric" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nInput">Iterations <span>(N)</span></label>
+                            <input id="nInput" name="iterations" type="number" min="1" max="1000" step="1" value="10" inputmode="numeric" required>
+                            <small class="input-hint">Choose between 1 and 1,000 iterations.</small>
+                        </div>
+                    </div>
+                    <div id="validationAlert" class="validation-alert" role="alert" aria-live="polite" hidden></div>
+                    <div class="button-row">
+                        <button id="btnGenerate" class="btn btn-primary" type="submit">Generate LCG Sequence <span aria-hidden="true">→</span></button>
+                        <button id="btnReset" class="btn btn-secondary" type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="step-by-step" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">04</span>
+                <div>
+                    <h2>Step-by-Step Calculation</h2>
+                    <p class="section-subtitle">Follow the formula, substituted values, intermediate result, and next state for every iteration.</p>
+                </div>
+            </div>
+            <div id="stepBreakdownContainer" class="step-container" aria-live="polite"></div>
+        </section>
+
+        <section id="results" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">05</span>
+                <div>
+                    <h2>Generated Sequence</h2>
+                    <p class="section-subtitle">The initial seed followed by each dynamically generated state.</p>
+                </div>
+            </div>
+            <div id="sequenceDisplay" class="sequence-display" aria-live="polite"></div>
+            <div class="table-heading">
+                <h3>Iteration Details</h3>
+                <p>Normalized value: Uₙ = Xₙ / m</p>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Iteration</th>
+                            <th>Current State (Xₙ)</th>
+                            <th>Calculation</th>
+                            <th>Next State (Xₙ₊₁)</th>
+                            <th>Normalized Value (Uₙ)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sequenceTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="period" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">06</span>
+                <div>
+                    <h2>Period Analysis</h2>
+                    <p class="section-subtitle">A period is found by locating the first state that appears more than once.</p>
+                </div>
+            </div>
+            <div id="periodCard" class="period-card" aria-live="polite"></div>
+        </section>
+
+        <section id="visualization" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">07</span>
+                <div>
+                    <h2>Visualization</h2>
+                    <p class="section-subtitle">Compare generated states and normalized values across iterations.</p>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <article class="chart-card">
+                    <h3>Generated Value vs Iteration</h3>
+                    <div class="chart-container"><canvas id="lineChart" role="img" aria-label="Line chart of generated values by iteration"></canvas></div>
+                    <p class="chart-caption">State Xₙ at each iteration n.</p>
+                </article>
+                <article class="chart-card">
+                    <h3>Normalized Value vs Iteration</h3>
+                    <div class="chart-container"><canvas id="normalizedChart" role="img" aria-label="Line chart of normalized values by iteration"></canvas></div>
+                    <p class="chart-caption">Normalized value Uₙ = Xₙ / m at each iteration n.</p>
+                </article>
+            </div>
+            <p id="chartNotice" class="chart-notice" hidden></p>
+        </section>
+
+        <section id="summary" class="section-card">
+            <div class="section-heading">
+                <span class="section-number">08</span>
+                <div>
+                    <h2>Final Result Summary</h2>
+                    <p class="section-subtitle">A concise recap of the current experiment.</p>
+                </div>
+            </div>
+            <div id="summaryCard" class="summary-card" aria-live="polite"></div>
+        </section>
+
+        <section id="conclusion" class="conclusion-card">
+            <span class="conclusion-label">CONCLUSION</span>
+            <h2>From recurrence to visible pattern</h2>
+            <p>The virtual laboratory demonstrates how the seed and LCG parameters determine every next state. Step-by-step arithmetic, sequence values, normalized outputs, a chart, and repeat detection make the algorithm easier to understand and present.</p>
+        </section>
+        <footer class="lab-footer">Linear Congruential Generator Virtual Laboratory <span aria-hidden="true">·</span> Interactive learning project</footer>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
